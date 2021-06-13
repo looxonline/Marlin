@@ -168,8 +168,8 @@
     slow_homing_t slow_homing{0};
     slow_homing.acceleration.set(planner.settings.max_acceleration_mm_per_s2[X_AXIS],
                                  planner.settings.max_acceleration_mm_per_s2[Y_AXIS]);
-    planner.settings.max_acceleration_mm_per_s2[X_AXIS] = 100;
-    planner.settings.max_acceleration_mm_per_s2[Y_AXIS] = 100;
+    planner.settings.max_acceleration_mm_per_s2[X_AXIS] = 140;
+    planner.settings.max_acceleration_mm_per_s2[Y_AXIS] = 140;
     #if HAS_CLASSIC_JERK
       slow_homing.jerk_xy = planner.max_jerk;
       planner.max_jerk.set(0, 0);
