@@ -40,7 +40,7 @@
 // Limit Switches
 //
 #define X_MIN_PIN                           PB11
-#define X_MAX_PIN                           PD13
+//#define X_MAX_PIN                           PD13
 #define Y_MIN_PIN                           PB12
 #define Y_MAX_PIN                           PB13
 #ifdef Z_MIN_PROBE_USES_Z_MIN_ENDSTOP_PIN
