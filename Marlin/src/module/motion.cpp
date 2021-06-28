@@ -1390,6 +1390,12 @@ void set_axis_is_at_home(const AxisEnum axis) {
     current_position[axis] = (axis == Z_AXIS) ? delta_height - TERN0(HAS_BED_PROBE, probe.offset.z) : base_home_pos(axis);
   #else
     current_position[axis] = base_home_pos(axis);
+    // Put here.
+    #if ENABLED (BABYSTEP_DISPLAY_TOTAL)
+      //if (axis != Z_AXIS) {
+        babystep.reset_total(axis);
+      //}
+    #endif    
     #if ENABLED (BABYSTEP_DISPLAY_TOTAL)
       if (axis == Z_AXIS) {
         current_position[axis] -= planner.steps_to_mm[axis] * babystep.axis_total[BS_TOTAL_IND(axis)];
@@ -1418,11 +1424,7 @@ void set_axis_is_at_home(const AxisEnum axis) {
 
   TERN_(I2C_POSITION_ENCODERS, I2CPEM.homed(axis));
 
-  #if ENABLED (BABYSTEP_DISPLAY_TOTAL)
-    if (axis != Z_AXIS) {
-      babystep.reset_total(axis);
-    }
-  #endif
+//Removed from here...
 
   #if HAS_POSITION_SHIFT
     position_shift[axis] = 0;

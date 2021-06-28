@@ -195,6 +195,16 @@ void menuBabyStep(void)
 
   orig_z_offset = getParameter(P_PROBE_OFFSET, Z_STEPPER);
 
+  //char buf[64];
+  //char dbl_str[10];
+  //char dbl_str2[10];
+  //dtostrf(orig_z_offset, 1, 2, dbl_str);
+  //dtostrf(baby_step_value, 1, 2, dbl_str2);
+  //sprintf(buf,"orig Z off is %s, Baby step is %s \n", dbl_str, dbl_str2);
+  //addToast(DIALOG_TYPE_INFO, buf);
+
+  //storeCmd(buf);
+
   if (infoMachineSettings.EEPROM == 1)
   {
     babyStepItems.items[KEY_ICON_4].icon = ICON_EEPROM_SAVE;

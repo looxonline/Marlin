@@ -138,6 +138,7 @@ class PrintJobRecovery {
             SET_INPUT_PULLUP(POWER_LOSS_PIN);
           #else
             SET_INPUT_PULLDOWN(POWER_LOSS_PIN);
+            SET_OUTPUT(POWER_LOSS_BUFFER_PIN);      // Both sets it to an output and writes it to low.
           #endif
         #else
           SET_INPUT(POWER_LOSS_PIN);
@@ -168,8 +169,21 @@ class PrintJobRecovery {
 
     #if PIN_EXISTS(POWER_LOSS)
       static inline void outage() {
-        if (enabled && READ(POWER_LOSS_PIN) == POWER_LOSS_STATE)
+        if (enabled && READ(POWER_LOSS_PIN) == POWER_LOSS_STATE) {
           _outage();
+        }
+      }
+
+      // Buffer the power loss pin state.
+      static inline void outage_buffer() {
+      #if PIN_EXISTS(POWER_LOSS_BUFFER)
+        if (READ(POWER_LOSS_PIN) == POWER_LOSS_STATE) {
+          OUT_WRITE(POWER_LOSS_BUFFER_PIN,HIGH);
+        } else
+        {
+          OUT_WRITE(POWER_LOSS_BUFFER_PIN,LOW);
+        }        
+      #endif
       }
     #endif
 

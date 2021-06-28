@@ -40,7 +40,7 @@
 // Limit Switches
 //
 #define X_MIN_PIN                           PB11
-#define X_MAX_PIN                           PD13
+//#define X_MAX_PIN                           PD13
 #define Y_MIN_PIN                           PB12
 #define Y_MAX_PIN                           PB13
 #ifdef Z_MIN_PROBE_USES_Z_MIN_ENDSTOP_PIN
@@ -54,7 +54,8 @@
 #define FIL_RUNOUT2_PIN                     PB13
 
 #ifdef BTT_SKR_SE_BX_WITHBOOT
-  #define LED_PIN                             PA13
+  //#define LED_PIN                             PA13
+  #define POWER_LOSS_BUFFER_PIN             PA13      // Used to buffer the power loss signal to the pi.
   #define BEEPER_PIN                          PA14
 #endif
 
