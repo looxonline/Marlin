@@ -134,12 +134,8 @@ class PrintJobRecovery {
     static inline void setup() {
       #if PIN_EXISTS(POWER_LOSS)
         #if ENABLED(POWER_LOSS_PULL)
-          #if POWER_LOSS_STATE == LOW
             SET_INPUT_PULLUP(POWER_LOSS_PIN);
-          #else
-            SET_INPUT_PULLDOWN(POWER_LOSS_PIN);
             SET_OUTPUT(POWER_LOSS_BUFFER_PIN);      // Both sets it to an output and writes it to low.
-          #endif
         #else
           SET_INPUT(POWER_LOSS_PIN);
         #endif

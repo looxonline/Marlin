@@ -108,6 +108,13 @@ echo""
 # Give the script execution rights
 sudo chmod 755 shutpi.py
 
+# Fix the OctoBTT thread hog
+echo ""
+echo "Applying the octoBTT fix if needed."
+echo ""
+
+sed -i 's|su -l pi -c "cd /home/pi/OctoBTT \&\& ./OctoBTT - platform eglfs".*|su -l pi -c "cd /home/pi/OctoBTT \&\& ./OctoBTT - platform eglfs" \&|g'
+
 echo ""
 echo "Adding the script to the boot sequence."
 echo ""
