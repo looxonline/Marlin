@@ -820,19 +820,20 @@ inline void manage_inactivity(const bool ignore_stepper_queue=false) {
     OUT_WRITE(SAFE_POWER_PIN, LOW);
     #if PIN_EXISTS(POWER_LOSS)
       uint16_t power_stabilization_count = 0;
-      uint16_t power_stabilization_max = 130;   // Measured in increments of 50ms. 6.5s total possible wait time.
+      uint16_t power_stabilization_max = 200;   // Measured in increments of 50ms. 10s total possible wait time.
       uint16_t power_stabilized_count = 0;
-      uint16_t power_stabilized_max = 10; // 500ms should be enough to ensure rail stabilization.
+      uint16_t power_stabilized_max = 20; // 500ms should be enough to ensure rail stabilization.
       // If the power loss pin is enabled it means that we have a mini UPS and need to slow the boot process to allow time for the caps to charge.
       
       // The VIN rail presented to the board goes through a series of jagged rise and fall states on boot, possibly caused
       // by the meanwell PSU going into self limiting because of the inrush load presented by the mini UPS. The algorithm
       // below aims to detect the mini spikes and wait for a finally stabilized supply.
-      while (!safe_power_vin_supported(safe_power_vin()))
+      //while (!safe_power_vin_supported(safe_power_vin()))
+      while (power_stabilization_count++ < power_stabilization_max)
       {
         delay(50);
 
-        if (++power_stabilization_count >= power_stabilization_max) break;
+        //if (++power_stabilization_count >= power_stabilization_max) break;
         
         power_stabilized_count = 0;
 
@@ -840,7 +841,11 @@ inline void manage_inactivity(const bool ignore_stepper_queue=false) {
         {
           delay(50);
           ++power_stabilization_count;      // This still needs to count up even when the power appears to have stabilized.
-          if (++power_stabilized_count >= power_stabilized_max) break;
+          if (++power_stabilized_count >= power_stabilized_max)
+          {
+            power_stabilization_count = power_stabilization_max;    // Force the outer loop to break.
+            break;
+          } 
         }
       }
     #endif
@@ -855,6 +860,7 @@ inline void manage_inactivity(const bool ignore_stepper_queue=false) {
     else {
       WRITE(SAFE_POWER_PIN, HIGH);
       SERIAL_ECHO_MSG("safe power ok");
+      delay(100);   // Allow some time for the supply to stabilize now that it has been applied to the drivers.
     }
   }
 #endif
